@@ -16,8 +16,10 @@ namespace HLess.Shared.Users
 {
     public class User : IdentityUser
     {
+        [PersonalData]
         [StringLength(100, ErrorMessage = "The {0} can not be more than {1} characters.")]
         public string Name { get; set; }
+        [PersonalData]
         [StringLength(100, ErrorMessage = "The {0} can not be more than {1} characters.")]
         public string Lastname { get; set; }
     }
