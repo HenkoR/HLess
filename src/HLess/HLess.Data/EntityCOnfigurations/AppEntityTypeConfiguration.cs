@@ -14,7 +14,7 @@ using HLess.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HLess.Data.EntityCOnfigurations
+namespace HLess.Data.EntityConfigurations
 {
     class AppEntityTypeConfiguration : IEntityTypeConfiguration<App>
     {

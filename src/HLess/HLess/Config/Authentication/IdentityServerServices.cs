@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
+using HLess.Services;
 using HLess.Shared.Users;
 
 using Microsoft.AspNetCore.Authentication;
@@ -62,7 +63,8 @@ namespace HLess.Config.Authentication
                 // this enables automatic token cleanup. this is optional.
                 options.EnableTokenCleanup = true;
             })
-            .AddAspNetIdentity<User>();
+            .AddAspNetIdentity<User>()
+            .AddProfileService<ProfileService>();
 
             // not recommended for production - you need to store your key material somewhere secure
             if (environment.IsDevelopment())

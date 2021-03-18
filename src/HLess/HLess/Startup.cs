@@ -73,6 +73,9 @@ namespace HLess
             {
                 endpoints.MapRazorPages();
             });
+
+            // Migrate and Seed DB
+            app.InitializeIdentityDatabase();
         }
     }
 }
