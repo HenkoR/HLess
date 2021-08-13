@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hless.Common\Hless.Common.csproj" />
+    <ProjectReference Include="..\Hless.Data\Hless.Data.csproj" />
+    <ProjectReference Include="..\Hless.Data.InMemory\Hless.Data.InMemory.csproj" />
+  </ItemGroup>
+
 </Project>
