@@ -1,3 +1,5 @@
+using System;
+
 namespace Hless.Data.Models
 {
     public record Schema 
@@ -7,6 +9,11 @@ namespace Hless.Data.Models
         public string Definition { get; init; }
         public string DraftDefinition { get; init; }
         public string CreatedBy { get; init; }
+        public DateTime CreatedAt { get; init; }
+        public DateTime LastModified { get; init; }
+        public DateTime FirstPublished { get; init; }
+        public DateTime LastPublished { get; init; }
+        public Application ApplicationId { get; init; }
 
     }
     

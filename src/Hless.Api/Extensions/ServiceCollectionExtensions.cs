@@ -9,6 +9,7 @@ namespace Hless.Api.Extensions
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             services.AddSingleton<ISchemaRepository, InMemorySchemaRepository>();
+            services.AddSingleton<IApplicationRepository, InMemoryApplicationRepository>();
             return services;
         }
         

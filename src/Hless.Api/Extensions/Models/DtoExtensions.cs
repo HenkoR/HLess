@@ -1,4 +1,4 @@
-using Hless.Api.Models.Dto;
+using Hless.Data.Models.Dto;
 using Hless.Data.Models;
 
 namespace Hless.Api.Extensions.Models
@@ -14,6 +14,16 @@ namespace Hless.Api.Extensions.Models
                 DraftDefinition = schema.DraftDefinition,
                 Name = schema.Name,
                 SchemaId = schema.SchemaId
+            };
+        }
+
+        public static ApplicationDto AsDto(this Application application)
+        {
+            return new ApplicationDto
+            {
+                ApplicationId = application.ApplicationId,
+                OwnerId = application.OwnerId,
+                Name = application.Name,
             };
         }
     }
