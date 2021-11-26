@@ -8,8 +8,9 @@ namespace Hless.Common.Repositories
     {
         Task<IEnumerable<Schema>> GetSchemasAsync(); 
         Task<Schema> GetSchemaAsync(long schemaId);
-        Task CreateSchemaAsync(Schema schema);
-        Task UpdateSchemaAsync(Schema schema);
-        Task PublishSchemaAsync(long schemaId);
+        Task<Schema> CreateSchemaAsync(Schema schema);
+        Task<bool> UpdateSchemaAsync(Schema schema);
+        Task<bool> PublishSchemaAsync(long schemaId);
+        Task<bool> DeleteSchemaAsync(long schemaId);
     }
 }

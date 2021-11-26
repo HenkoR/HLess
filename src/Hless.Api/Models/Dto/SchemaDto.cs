@@ -1,3 +1,5 @@
+using Hless.Data.Models;
+
 namespace Hless.Api.Models.Dto
 {
     public record SchemaDto
@@ -7,6 +9,13 @@ namespace Hless.Api.Models.Dto
         public string Definition { get; init; }
         public string DraftDefinition { get; init; }
         public string CreatedBy { get; init; }
+        public long ApplicationId { get; init; }
+    }
 
+    public record SchemaCreateDto
+    {
+        public string Name { get; init; }
+        public string DraftDefinition { get; init; }
+        public long ApplicationId { get; init; }
     }
 }

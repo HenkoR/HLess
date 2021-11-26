@@ -11,7 +11,7 @@ using Hless.Data.Models;
 namespace Hless.Api.Controllers
 {
     [Route("[controller]/[action]")]
-    public class ApplicationController : Controller
+    public class ApplicationController : BaseController
     {
         public IApplicationRepository _repository;
 

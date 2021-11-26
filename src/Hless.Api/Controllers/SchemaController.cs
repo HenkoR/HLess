@@ -18,7 +18,7 @@ namespace Hless.Api.Controllers
         {
             _repository = repository;
         }
-        
+
         [HttpGet]
         public async Task<IEnumerable<SchemaDto>> GetSchemasAsync()
         {
@@ -26,5 +26,34 @@ namespace Hless.Api.Controllers
                 .Select(schema => schema.AsDto());
             return schemas;
         }
+        [HttpGet]
+        public async Task<Schema> GetSchemaAsync(long schemaId)
+        {
+            return await _repository.GetSchemaAsync(schemaId);
+        }
+        [HttpPost]
+        public async Task<Schema> CreateSchemaAsync(SchemaCreateDto schema)
+        {
+            Schema newSchema = new Schema()
+            {
+                Name = schema.Name,
+                DraftDefinition = schema.DraftDefinition,
+                ApplicationId = schema.ApplicationId,
+            };
+
+            return await _repository.CreateSchemaAsync(newSchema);
+        }
+        //[HttpPut]
+        //public async Task<bool> UpdateSchemaAsync(Schema schema)
+        //{
+        //}
+        //[HttpGet]
+        //public async Task<bool> PublishSchemaAsync(long schemaId)
+        //{
+        //}
+        //[HttpDelete]
+        //public async Task<bool> DeleteSchemaAsync(long schemaId)
+        //{
+        //}
     }
 }

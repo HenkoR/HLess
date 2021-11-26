@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,40 @@ namespace Hless.Data.InMemory.Repositories
     {
         private readonly List<Schema> schemas = new() 
         {
-            new Schema { SchemaId = 1, Name = "HomePage", Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" }
+            new Schema { SchemaId = 0, Name = "HomePage", Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" }
         };
 
-        public Task CreateSchemaAsync(Schema schema)
+        public async Task<Schema> CreateSchemaAsync(Schema schema)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    Schema newSchema = new Schema()
+                    {
+                        SchemaId = schemas.Count,
+                        Name = schema.Name,
+                        Definition = "",
+                        DraftDefinition = schema.DraftDefinition,
+                        CreatedBy = "CreatedBy", // Update with logged in user
+                        CreatedAt = DateTime.Now,
+                        LastModified = DateTime.Now,
+                        FirstPublished = null,
+                        LastPublished = null,
+                        ApplicationId = schema.ApplicationId,
+                    };
+                    schemas.Add(newSchema);
+
+                    return newSchema;
+                }
+                catch
+                {
+                    return null;
+                }
+            });
+        }
+
+        public Task<bool> DeleteSchemaAsync(long schemaId)
         {
             throw new System.NotImplementedException();
         }
@@ -31,12 +62,12 @@ namespace Hless.Data.InMemory.Repositories
             return await Task.FromResult(schemas);
         }
 
-        public Task PublishSchemaAsync(long schemaId)
+        public Task<bool> PublishSchemaAsync(long schemaId)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task UpdateSchemaAsync(Schema schema)
+        public Task<bool> UpdateSchemaAsync(Schema schema)
         {
             throw new System.NotImplementedException();
         }

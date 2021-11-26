@@ -11,9 +11,9 @@ namespace Hless.Data.Models
         public string CreatedBy { get; init; }
         public DateTime CreatedAt { get; init; }
         public DateTime LastModified { get; init; }
-        public DateTime FirstPublished { get; init; }
-        public DateTime LastPublished { get; init; }
-        public Application ApplicationId { get; init; }
+        public DateTime? FirstPublished { get; init; }
+        public DateTime? LastPublished { get; init; }
+        public long ApplicationId { get; init; }
 
     }
     
