@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hless.Data.Models.Dto
+namespace Hless.Api.Models.Dto
 {
     public record ApplicationDto
     {

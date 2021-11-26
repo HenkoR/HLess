@@ -1,4 +1,4 @@
-namespace Hless.Data.Models.Dto
+namespace Hless.Api.Models.Dto
 {
     public record SchemaDto
     {

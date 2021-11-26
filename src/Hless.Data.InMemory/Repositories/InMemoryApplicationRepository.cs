@@ -1,6 +1,5 @@
 ﻿using Hless.Common.Repositories;
 using Hless.Data.Models;
-using Hless.Data.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +23,15 @@ namespace Hless.Data.InMemory.Repositories
             }
         };
 
-        public async Task CreateApplicationAsync(ApplicationCreateDto app)
+        public async Task CreateApplicationAsync(string name, string OwnerId)
         {
             await Task.Run(() =>
             {
                 Application application = new Application()
                 {
                     ApplicationId = applications.Count,
-                    Name = app.Name,
-                    OwnerId = app.OwnerId,
+                    Name = name,
+                    OwnerId = OwnerId,
                     CreatedBy = "CreatedBy", // TODO: Change to logged in user
                     CreatedAt = DateTime.Now,
                     LastModified = DateTime.Now,
@@ -57,19 +56,19 @@ namespace Hless.Data.InMemory.Repositories
             return await Task.FromResult(applications);
         }
 
-        public async Task<bool> UpdateApplicationAsync(ApplicationDto application)
+        public async Task<bool> UpdateApplicationAsync(long applicationId, string name, string OwnerId)
         {
             return await Task.Run(() =>
             {
-                Application oldApp = applications.SingleOrDefault(app => app.ApplicationId == application.ApplicationId);
+                Application oldApp = applications.SingleOrDefault(app => app.ApplicationId == applicationId);
 
                 if (oldApp != null)
                 {
                     Application newApp = new Application()
                     {
                         ApplicationId = oldApp.ApplicationId,
-                        Name = application.Name,
-                        OwnerId = application.OwnerId,
+                        Name = name,
+                        OwnerId = OwnerId,
                         CreatedBy = oldApp.CreatedBy, // TODO: Change to logged in user
                         CreatedAt = oldApp.CreatedAt,
                         LastModified = DateTime.Now,

@@ -1,4 +1,4 @@
-using Hless.Data.Models.Dto;
+using Hless.Api.Models.Dto;
 using Hless.Data.Models;
 
 namespace Hless.Api.Extensions.Models

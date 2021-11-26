@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hless.Common.Repositories;
-using Hless.Data.Models.Dto;
+using Hless.Api.Models.Dto;
 using Hless.Api.Extensions.Models;
 using Hless.Data.Models;
 
@@ -31,7 +31,7 @@ namespace Hless.Api.Controllers
         [HttpPost]
         public async void CreateApplicationAsync(ApplicationCreateDto application)
         {
-            await _repository.CreateApplicationAsync(application);
+            await _repository.CreateApplicationAsync(application.Name, application.OwnerId);
         }
 
         [HttpGet]
@@ -43,7 +43,7 @@ namespace Hless.Api.Controllers
         [HttpPut]
         public async Task<bool> UpdateApplicationAsync(ApplicationDto application)
         {
-            return await _repository.UpdateApplicationAsync(application);
+            return await _repository.UpdateApplicationAsync(application.ApplicationId, application.Name, application.OwnerId);
         }
 
         [HttpDelete]
