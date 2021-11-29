@@ -43,17 +43,20 @@ namespace Hless.Api.Controllers
 
             return await _repository.CreateSchemaAsync(newSchema);
         }
-        //[HttpPut]
-        //public async Task<bool> UpdateSchemaAsync(Schema schema)
-        //{
-        //}
-        //[HttpGet]
-        //public async Task<bool> PublishSchemaAsync(long schemaId)
-        //{
-        //}
-        //[HttpDelete]
-        //public async Task<bool> DeleteSchemaAsync(long schemaId)
-        //{
-        //}
+        [HttpPut]
+        public async Task<bool> UpdateSchemaAsync(Schema schema)
+        {
+            return await _repository.UpdateSchemaAsync(schema);
+        }
+        [HttpGet]
+        public async Task<bool> PublishSchemaAsync(long schemaId)
+        {
+            return await _repository.PublishSchemaAsync(schemaId);
+        }
+        [HttpDelete]
+        public async Task<bool> DeleteSchemaAsync(long schemaId)
+        {
+            return await _repository.DeleteSchemaAsync(schemaId);
+        }
     }
 }

@@ -48,7 +48,8 @@ namespace Hless.Data.InMemory.Repositories
 
         public Task<bool> DeleteSchemaAsync(long schemaId)
         {
-            throw new System.NotImplementedException();
+
+            return Task.Run(() => schemas.Remove(schemas.Find(s => s.SchemaId == schemaId)));
         }
 
         public async Task<Schema> GetSchemaAsync(long schemaId)
