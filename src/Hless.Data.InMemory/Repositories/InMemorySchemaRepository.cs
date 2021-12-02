@@ -13,7 +13,11 @@ namespace Hless.Data.InMemory.Repositories
     {
         private readonly List<Schema> schemas = new() 
         {
-            new Schema { SchemaId = 0, Name = "HomePage", Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" }
+            new Schema { 
+                SchemaId = 0, 
+                Name = "HomePage", 
+                Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" 
+            }
         };
 
         public async Task<Schema> CreateSchemaAsync(Schema schema)
@@ -22,11 +26,13 @@ namespace Hless.Data.InMemory.Repositories
             {
                 try
                 {
+
+
                     Schema newSchema = new Schema()
                     {
                         SchemaId = schemas.Count,
                         Name = schema.Name,
-                        Definition = "",
+                        Definition = null,
                         DraftDefinition = schema.DraftDefinition,
                         CreatedBy = "CreatedBy", // Update with logged in user
                         CreatedAt = DateTime.Now,
