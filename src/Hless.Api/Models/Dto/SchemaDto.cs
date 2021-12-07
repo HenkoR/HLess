@@ -11,4 +11,11 @@ namespace Hless.Api.Models.Dto
         public string CreatedBy { get; init; }
         public long ApplicationId { get; init; }
     }
+
+    public record SchemaCreateDto
+    {
+        public string Name { get; init; }
+        public string DraftDefinition { get; init; }
+        public long ApplicationId { get; init; }
+    }
 }
