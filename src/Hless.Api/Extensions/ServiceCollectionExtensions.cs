@@ -10,7 +10,6 @@ namespace Hless.Api.Extensions
         {
             services.AddSingleton<ISchemaRepository, InMemorySchemaRepository>();
             services.AddSingleton<IApplicationRepository, InMemoryApplicationRepository>();
-            services.AddSingleton<IContentRepository, InMemoryContentRepository>();
             return services;
         }
     }
