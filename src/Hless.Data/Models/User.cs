@@ -9,9 +9,9 @@ namespace Hless.Data.Models
     public record User
     {
         public long id { get; init; }
-        public string Name { get; set; }
+        public string Username { get; set; }
         public string EmailAddress { get; set; }
-        public string ApiKey { get; set; }
+        public string Password { get; set; }
         public bool admin { get; set; }
         public long CreatedById { get; set; }
         public long UpdatedById { get; set; }

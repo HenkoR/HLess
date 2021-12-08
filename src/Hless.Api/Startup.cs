@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Hless.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace Hless.Api
@@ -28,6 +28,8 @@ namespace Hless.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDependencies();
+            services.AddJwtAuthentication(Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -54,6 +56,7 @@ namespace Hless.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

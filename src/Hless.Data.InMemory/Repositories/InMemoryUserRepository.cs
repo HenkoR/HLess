@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hless.Common.Repositories;
 using Hless.Data.Models;
+using Hless.Data.Tools.HashingTools;
 
 namespace Hless.Data.InMemory.Repositories
 {
@@ -15,9 +16,9 @@ namespace Hless.Data.InMemory.Repositories
             new User
             {
                 id = 0,
-                Name = "Admin",
+                Username = "Admin",
                 EmailAddress = "admin@gmail.com",
-                ApiKey = "admin-test-api-key",
+                Password = Sha256.Hash("admin-password"),
                 admin = true,
                 CreatedById = 0,
                 UpdatedById = 0,
@@ -25,9 +26,9 @@ namespace Hless.Data.InMemory.Repositories
             new User
             {
                 id = 1,
-                Name = "Pieter",
+                Username = "Pieter",
                 EmailAddress = "pieter@gmail.com",
-                ApiKey = "test-api-key",
+                Password = Sha256.Hash("password"),
                 admin = false,
                 CreatedById = 0,
                 UpdatedById = 0,
@@ -54,10 +55,6 @@ namespace Hless.Data.InMemory.Repositories
         {
             return Task.FromResult(users.FirstOrDefault(x => x.id == userId));
         }
-        public Task<User> GetUser(string apiKey)
-        {
-            return Task.FromResult(users.FirstOrDefault(x => x.ApiKey == apiKey));
-        }
 
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
@@ -83,9 +80,9 @@ namespace Hless.Data.InMemory.Repositories
                         var newUser = new User
                         {
                             id = userId,
-                            Name = user.Name,
+                            Username = user.Username,
                             EmailAddress = user.EmailAddress,
-                            ApiKey = user.ApiKey,
+                            Password = user.Password,
                             admin = user.admin,
                             CreatedById = user.CreatedById,
                             UpdatedById = user.UpdatedById,

@@ -63,4 +63,7 @@
     <Build Include="Content.sql" />
     <Build Include="User.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Hless.Data.DB.refactorlog" />
+  </ItemGroup>
 </Project>
