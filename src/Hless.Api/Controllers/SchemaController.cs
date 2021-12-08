@@ -7,10 +7,12 @@ using Hless.Api.Models.Dto;
 using Hless.Common.Repositories;
 using Hless.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Hless.Api.Attributes;
 
 namespace Hless.Api.Controllers
 {
-    [Route("[controller]")]
+    [ApiKey]
+    [Route("[controller]/[action]")]
     public class SchemaController : BaseController
     {
         readonly ISchemaRepository _repository;
