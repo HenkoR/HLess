@@ -14,5 +14,6 @@ namespace Hless.Common.Repositories
         public Task<bool> RemoveUser(long userId);
         public Task<bool> UpdateUser(long userId, User user);
         public Task<User> GetUser(long userId);
+        public Task<User> GetUser(string Username);
     }
 }

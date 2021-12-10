@@ -8,7 +8,7 @@ namespace Hless.Data.Models
 {
     public record User
     {
-        public long id { get; init; }
+        public long id { get; set; }
         public string Username { get; set; }
         public string EmailAddress { get; set; }
         public string Password { get; set; }

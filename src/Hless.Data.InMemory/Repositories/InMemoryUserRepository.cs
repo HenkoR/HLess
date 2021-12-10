@@ -41,6 +41,8 @@ namespace Hless.Data.InMemory.Repositories
             {
                 try
                 {
+                    user.id = users.Count();
+
                     users.Add(user);
                     return user;
                 }
@@ -56,6 +58,11 @@ namespace Hless.Data.InMemory.Repositories
             return Task.FromResult(users.FirstOrDefault(x => x.id == userId));
         }
 
+        public Task<User> GetUser(string Username)
+        {
+            return Task.FromResult(users.Find(x => x.Username == Username));
+        }
+
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             return await Task.FromResult(users);
@@ -63,7 +70,14 @@ namespace Hless.Data.InMemory.Repositories
 
         public Task<bool> RemoveUser(long userId)
         {
-            return Task.FromResult(users.Remove(users.FirstOrDefault(x => x.id == userId)));
+            if (userId != 0)
+            {
+                return Task.FromResult(users.Remove(users.FirstOrDefault(x => x.id == userId)));
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         public async Task<bool> UpdateUser(long userId, User user)

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 
 namespace Hless.Api.JWT
@@ -16,7 +17,7 @@ namespace Hless.Api.JWT
     public class JwtAuthenticationManager : IJwtAuthenticationManager
     {
         private readonly string tokenKey;
-        private readonly IUserRepository users; //?
+        private readonly IUserRepository users;
 
         public JwtAuthenticationManager(IServiceProvider services, string tokenKey)
         {
@@ -30,7 +31,7 @@ namespace Hless.Api.JWT
 
             List<User> userslst = users.GetUsersAsync().Result.ToList();
 
-            if(!userslst.Any(u => u.Username == user.UserName && u.Password == hashedPassword))
+            if (!userslst.Any(u => u.Username == user.UserName && u.Password == hashedPassword))
             {
                 return null;
             }
@@ -41,7 +42,8 @@ namespace Hless.Api.JWT
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.UserName)
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Actor, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
