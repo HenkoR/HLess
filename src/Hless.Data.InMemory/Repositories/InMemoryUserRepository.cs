@@ -66,16 +66,15 @@ namespace Hless.Data.InMemory.Repositories
             return Task.FromResult(users.Remove(users.FirstOrDefault(x => x.id == userId)));
         }
 
-        public Task<bool> UpdateUser(long userId, User user)
+        public async Task<bool> UpdateUser(long userId, User user)
         {
-            return Task.Run(() =>
+            return await Task.Run(() =>
             {
                 try
                 {
                     if (users.Exists(x => x.id == userId))
                     {
-
-                        var i = users.IndexOf(users.FirstOrDefault(x => x.id == user.id));
+                        var i = users.IndexOf(users.Find(x => x.id == userId));
 
                         var newUser = new User
                         {

@@ -31,6 +31,30 @@ namespace Hless.Api.Controllers
             return await _repository.GetUsersAsync();
         }
 
+        [HttpGet]
+        public async Task<User> GetUser(long userId)
+        {
+            return await _repository.GetUser(userId);
+        }
+
+        [HttpPost]
+        public async Task<User> AddUser(User user)
+        {
+            return await _repository.AddUser(user);
+        }
+
+        [HttpDelete]
+        public async Task<bool> DeleteUser(long userId)
+        {
+            return await _repository.RemoveUser(userId);
+        }
+
+        [HttpPost]
+        public async Task<bool> UpdateUser([FromBody] UpdateUserDto updateUser)
+        {
+            return await _repository.UpdateUser(updateUser.userId, updateUser.user);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Authenticate([FromBody] UserDto user)
