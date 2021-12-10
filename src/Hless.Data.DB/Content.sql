@@ -8,5 +8,7 @@
     [CreatedAt] DATETIMEOFFSET NOT NULL, 
     [LastModified] DATETIMEOFFSET NULL, 
     [FirstPublished] DATETIMEOFFSET NULL, 
-    [LastPublished] DATETIMEOFFSET NULL
+    [LastPublished] DATETIMEOFFSET NULL,
+    CONSTRAINT [FK_CreatedBy_Content_User] FOREIGN KEY ([CreatedBy]) REFERENCES [User]([Id]),
+    CONSTRAINT [FK_Content_Schema] FOREIGN KEY ([SchemaId]) REFERENCES [Schema]([SchemaId])
 )

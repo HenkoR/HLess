@@ -10,4 +10,6 @@
     [FirstPublished] DATETIMEOFFSET NULL, 
     [LastPublished] DATETIMEOFFSET NULL, 
     [ApplicationId] BIGINT NOT NULL
+    CONSTRAINT [FK_CreatedBy_Schema_User] FOREIGN KEY ([CreatedBy]) REFERENCES [User]([Id])
+    CONSTRAINT [FK_Schema_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [Application]([AppId])
 )
