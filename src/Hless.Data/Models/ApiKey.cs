@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,7 +38,12 @@ namespace Hless.Data.Models
 
         public static string generateApiKey()
         {
-            return "api-key"; // return api key here
+            var key = new byte[32];
+            using (var generator = RandomNumberGenerator.Create())
+                generator.GetBytes(key);
+            string apiKey = Convert.ToBase64String(key);
+
+            return apiKey;
         }
     }
 }

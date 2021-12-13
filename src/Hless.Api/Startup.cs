@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hless.Api.Extensions;
+using Hless.Api.JWT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,12 @@ namespace Hless.Api
             services.AddJwtAuthentication(Configuration);
 
             services.AddControllers();
+
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("Admin", policy => policy.RequireClaim(claimType: ClaimTypesExtension.Policy, "Admin"));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hless.Api", Version = "v1" });

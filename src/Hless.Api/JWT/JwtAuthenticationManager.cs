@@ -43,7 +43,8 @@ namespace Hless.Api.JWT
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Actor, user.Id.ToString())
+                    new Claim(ClaimTypesExtension.Id, user.Id.ToString()),
+                    new Claim(ClaimTypesExtension.Policy, user.Admin ? "Admin":"User")
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(

@@ -8,14 +8,13 @@ using Hless.Common.Repositories;
 
 namespace Hless.Data.InMemory.Repositories
 {
-    internal class InMemoryApiKeyRepository : IKeyRepository
+    public class InMemoryApiKeyRepository : IKeyRepository
     {
-        private List<ApiKey> _apiKeyList;
-
-        public InMemoryApiKeyRepository(List<ApiKey> apiKeyList)
+        private List<ApiKey> _apiKeyList = new List<ApiKey>
         {
-            _apiKeyList = apiKeyList;
-        }
+            new ApiKey(0, 0, 0),
+            new ApiKey(1, 0, 1)
+        };
 
         public async Task<ApiKey> ChangeApiKey(long keyId)
         {
