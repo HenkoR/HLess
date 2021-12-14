@@ -14,9 +14,29 @@ namespace Hless.Data.InMemory.Repositories
         private readonly List<Schema> schemas = new() 
         {
             new Schema { 
-                SchemaId = 0, 
-                Name = "HomePage", 
-                Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" 
+                SchemaId = 1, 
+                Name = "Users", 
+                DraftDefinition = new Dictionary<string, string> {
+                    { "Id", "number" },
+                    { "Title", "text" },
+                    { "Firstname", "text" },
+                    { "Surname", "text" }
+                },
+                CreatedBy = "Admin",
+                CreatedAt = DateTime.Now,
+            },
+            new Schema
+            {
+                SchemaId = 2,
+                Name = "Car",
+                DraftDefinition = new Dictionary<string, string> {
+                    { "Id", "number" },
+                    { "UsersId", "number" },
+                    { "Name", "text" },
+                    { "Licence", "text" }
+                },
+                CreatedBy = "Admin",
+                CreatedAt = DateTime.Now,
             }
         };
 
@@ -26,11 +46,9 @@ namespace Hless.Data.InMemory.Repositories
             {
                 try
                 {
-
-
                     Schema newSchema = new Schema()
                     {
-                        SchemaId = schemas.Count,
+                        SchemaId = schemas.Count + 1,
                         Name = schema.Name,
                         Definition = null,
                         DraftDefinition = schema.DraftDefinition,
@@ -54,13 +72,12 @@ namespace Hless.Data.InMemory.Repositories
 
         public Task<bool> DeleteSchemaAsync(long schemaId)
         {
-
             return Task.Run(() => schemas.Remove(schemas.Find(s => s.SchemaId == schemaId)));
         }
 
         public async Task<Schema> GetSchemaAsync(long schemaId)
         {
-            var schema = schemas.Where(schema => schema.SchemaId == schemaId).SingleOrDefault();
+            var schema = schemas.Find(schema => schema.SchemaId == schemaId);
             return await Task.FromResult(schema);
         }
 
@@ -71,12 +88,55 @@ namespace Hless.Data.InMemory.Repositories
 
         public Task<bool> PublishSchemaAsync(long schemaId)
         {
-            throw new System.NotImplementedException();
+            return Task.Run(() => {
+                try
+                {
+                    int i = schemas.IndexOf(schemas.Find(s => s.SchemaId == schemaId));
+
+                    if (i == -1)
+                        return false;
+
+                    schemas[i].Definition = schemas[i].DraftDefinition;
+                    schemas[i].LastPublished = DateTime.Now;
+
+                    if (schemas[i].FirstPublished == null)
+                        schemas[i].FirstPublished = schemas[i].LastPublished;
+
+                    return true;
+                }
+                catch { return false; }
+            });
         }
 
         public Task<bool> UpdateSchemaAsync(Schema schema)
         {
-            throw new System.NotImplementedException();
+            return Task.Run(() =>
+            {
+                try
+                {
+                    if(schema.SchemaId == 0)
+                        return false;
+
+                    int i = schemas.IndexOf(schemas.Find(s => s.SchemaId == schema.SchemaId));
+
+                    if (i == -1)
+                        return false;
+
+                    if(schema.Name != null)
+                        schemas[i].Name = schema.Name;
+
+                    if(schema.DraftDefinition != null)
+                    schemas[i].DraftDefinition = schema.DraftDefinition;
+
+                    if(schema.ApplicationId != 0)
+                    schemas[i].ApplicationId = schema.ApplicationId;
+
+                    schemas[i].LastModified = DateTime.Now;
+
+                    return true;
+                }
+                catch { return false; }
+            });
         }
     }
 }

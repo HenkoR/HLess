@@ -1,4 +1,6 @@
 using Hless.Data.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Hless.Api.Models.Dto
 {
@@ -6,8 +8,8 @@ namespace Hless.Api.Models.Dto
     {
         public long SchemaId { get; init; }
         public string Name { get; init; }
-        public string Definition { get; init; }
-        public string DraftDefinition { get; init; }
+        public Dictionary<string, string> Definition { get; init; }
+        public Dictionary<string, string> DraftDefinition { get; init; }
         public string CreatedBy { get; init; }
         public long ApplicationId { get; init; }
     }
@@ -15,7 +17,7 @@ namespace Hless.Api.Models.Dto
     public record SchemaCreateDto
     {
         public string Name { get; init; }
-        public string DraftDefinition { get; init; }
+        public Dictionary<string, string> DraftDefinition { get; init; }
         public long ApplicationId { get; init; }
     }
 }

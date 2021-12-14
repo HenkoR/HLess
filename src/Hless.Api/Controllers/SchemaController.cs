@@ -44,7 +44,7 @@ namespace Hless.Api.Controllers
             return await _repository.CreateSchemaAsync(newSchema);
         }
         [HttpPut]
-        public async Task<bool> UpdateSchemaAsync(Schema schema)
+        public async Task<bool> UpdateSchemaAsync([FromBody] Schema schema)
         {
             return await _repository.UpdateSchemaAsync(schema);
         }
@@ -57,6 +57,11 @@ namespace Hless.Api.Controllers
         public async Task<bool> DeleteSchemaAsync(long schemaId)
         {
             return await _repository.DeleteSchemaAsync(schemaId);
+        }
+        [HttpGet]
+        public async Task<Schema> Test([FromBody] Schema schema)
+        {
+            return await Task.FromResult(schema);
         }
     }
 }
