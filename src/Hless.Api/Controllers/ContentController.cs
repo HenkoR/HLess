@@ -19,9 +19,41 @@ namespace Hless.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Content>> GetContentsAsync()
+        public async Task<IEnumerable<Content>> GetContents()
         {
             return await _reposistory.GetContentsAsync();
+        }
+        [HttpGet]
+        public async Task<IEnumerable<Content>> GetSchemaContents(long schemaId)
+        {
+            return await _reposistory.GetContentsAsync(schemaId);
+        }
+
+        [HttpGet]
+        public async Task<Content> GetContent(long contentId)
+        {
+            return await _reposistory.GetContentAsync(contentId);
+        }
+
+        [HttpPost]
+        public async Task<Content> CreateContent(Content content)
+        {
+            return await _reposistory.CreateContentAsync(content);
+        }
+        [HttpPut]
+        public async Task<bool> UpdateContent(Content content)
+        {
+            return await _reposistory.UpdateContentAsync(content);
+        }
+        [HttpDelete]
+        public async Task<bool> DeleteContent(long contentId)
+        {
+            return await _reposistory.DeleteContentAsync(contentId);
+        }
+        [HttpGet]
+        public async Task<bool> PublishContent(long contentId)
+        {
+            return await _reposistory.PublishContentAsync(contentId);
         }
     }
 }

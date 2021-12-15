@@ -9,13 +9,13 @@ namespace Hless.Data.Models
     public record Content
     {
         public long ContentId { get; init; }
-        public string ContentFinal { get; set; }
-        public string DraftContent { get; set; }
+        public Dictionary<string, string> ContentFinal { get; set; }
+        public Dictionary<string, string> DraftContent { get; set; }
         public string CreatedBy { get; init; }
         public DateTime CreatedAt { get; init; }
         public DateTime LastModified { get; set; }
-        public DateTime? FirstPublished { get; init; }
-        public DateTime? LastPublished { get; init; }
-        public long SchemaId { get; init; }
+        public DateTime? FirstPublished { get; set; }
+        public DateTime? LastPublished { get; set; }
+        public long SchemaId { get; set; }
     }
 }

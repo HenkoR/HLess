@@ -10,19 +10,28 @@ namespace Hless.Data.InMemory.Repositories
 {
     public class InMemoryContentRepository : IContentRepository
     {
+        private readonly ISchemaRepository _schemaRepository;
+        public InMemoryContentRepository(ISchemaRepository schemaRepository)
+        {
+            _schemaRepository = schemaRepository;
+        }
+
         private readonly List<Content> lstContent = new()
         {
             new Content
             {
-                ContentId = 0,
-                ContentFinal = "{}",
-                DraftContent = "",
+                ContentId = 1,
+                ContentFinal = null,
+                DraftContent = new Dictionary<string, string>
+                {
+
+                },
                 CreatedBy = "UserId",
                 CreatedAt = new DateTime(1, 2, 3, 4, 5, 6),
                 LastModified = new DateTime(2, 3, 4, 5, 6, 7),
                 FirstPublished = new DateTime(1, 2, 3, 4, 5, 6),
                 LastPublished = new DateTime(2, 3, 4, 5, 6, 6),
-                SchemaId = 0
+                SchemaId = 1
             }
         };
 
@@ -32,17 +41,25 @@ namespace Hless.Data.InMemory.Repositories
             {
                 try
                 {
+                    // checks if schemaId is specified
+                    if (content.SchemaId <= 0)
+                        return null;
+
+                    //checks if repository exists
+                    if (_schemaRepository.GetSchemasAsync().Result.ToList().Find(s => s.SchemaId == content.SchemaId) == null)
+                        return null;
+
                     Content newContent = new Content()
                     {
-                        ContentId = lstContent.Count,
-                        ContentFinal = "{}",
+                        ContentId = lstContent.Count + 1,
+                        ContentFinal = null,
                         DraftContent = content.DraftContent,
-                        CreatedBy = "UserId", //Updated with logged in user
+                        CreatedBy = "UserId", // TODO: Updated with logged in user
                         CreatedAt = DateTime.Now,
                         LastModified = DateTime.Now,
                         FirstPublished = null,
                         LastPublished = null,
-                        SchemaId = 0
+                        SchemaId = content.SchemaId,
                     };
                     lstContent.Add(newContent);
 
@@ -86,17 +103,21 @@ namespace Hless.Data.InMemory.Repositories
                 {
                     int index = lstContent.FindIndex(x => x.ContentId == contentId);
 
+                    //checks if content exists with specified Id
+                    if (index == -1)
+                        return false;
+
                     Content newContent = new Content()
                     {
                         ContentId = lstContent[index].ContentId,
                         ContentFinal = lstContent[index].DraftContent,
-                        DraftContent = "",
+                        DraftContent = null,
                         CreatedBy = lstContent[index].CreatedBy,
                         CreatedAt = lstContent[index].CreatedAt,
                         LastModified = DateTime.Now,
                         FirstPublished = lstContent[index].FirstPublished == null ? lstContent[index].FirstPublished : DateTime.Now,
                         LastPublished = DateTime.Now,
-                        SchemaId = 0
+                        SchemaId = lstContent[index].SchemaId
                     };
 
                     lstContent[index] = newContent;
@@ -118,7 +139,19 @@ namespace Hless.Data.InMemory.Repositories
                 try
                 {
                     int i = lstContent.FindIndex(c => c.ContentId == content.ContentId);
-                    lstContent[i].DraftContent = content.DraftContent;
+
+                    //checks if content exists with specified Id
+                    if (i == -1)
+                        return false;
+
+                    //checks whether DraftContent is specified
+                    if (content.DraftContent != null)
+                        lstContent[i].DraftContent = content.DraftContent;
+
+                    // checks if schemaId is specified and if that id exists in database
+                    if (content.SchemaId != 0 && _schemaRepository.GetSchemasAsync().Result.ToList().Find(s => s.SchemaId == content.SchemaId) != null)
+                        lstContent[i].SchemaId = content.SchemaId;
+
                     lstContent[i].LastModified = DateTime.Now;
 
                     return true;
