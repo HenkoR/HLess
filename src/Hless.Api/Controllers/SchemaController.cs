@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hless.Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class SchemaController : BaseController
     {
         readonly ISchemaRepository _repository;
@@ -25,6 +25,11 @@ namespace Hless.Api.Controllers
             var schemas = (await _repository.GetSchemasAsync())
                 .Select(schema => schema.AsDto());
             return schemas;
+        }
+        [HttpPost]
+        public async Task<Schema> CreateSchema([FromBody] Schema schema)
+        {
+            return await Task.Run(() => _repository.CreateSchemaAsync(schema));
         }
     }
 }

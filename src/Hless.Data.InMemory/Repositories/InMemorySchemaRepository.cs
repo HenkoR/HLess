@@ -12,10 +12,10 @@ namespace Hless.Data.InMemory.Repositories
     {
         private readonly List<Schema> schemas = new() 
         {
-            new Schema { SchemaId = 1, Name = "HomePage", Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" }
+            //new Schema { SchemaId = 1, Name = "HomePage", Definition = "{\n\"fields\":[\n{\n\"name\":\"Title\",\n\"type\":\"text\"\n}\n]\n}" }
         };
 
-        public Task CreateSchemaAsync(Schema schema)
+        public Task<Schema> CreateSchemaAsync(Schema schema)
         {
             throw new System.NotImplementedException();
         }

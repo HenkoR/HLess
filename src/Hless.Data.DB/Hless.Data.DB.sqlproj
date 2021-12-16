@@ -61,5 +61,7 @@
     <Build Include="Application.sql" />
     <Build Include="Schema.sql" />
     <Build Include="Content.sql" />
+    <Build Include="ApiKey.sql" />
+    <Build Include="User.sql" />
   </ItemGroup>
 </Project>
