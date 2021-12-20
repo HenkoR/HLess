@@ -31,5 +31,10 @@ namespace Hless.Api.Controllers
         {
             return await Task.Run(() => _repository.CreateSchemaAsync(schema));
         }
+        [HttpGet]
+        public async Task PublishSchema(long schemaId)
+        {
+            await _repository.PublishSchemaAsync(schemaId);
+        }
     }
 }

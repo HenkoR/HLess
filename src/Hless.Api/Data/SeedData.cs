@@ -2,5 +2,9 @@
 {
     public class SeedData
     {
+        public static void AddData()
+        {
+
+        }
     }
 }

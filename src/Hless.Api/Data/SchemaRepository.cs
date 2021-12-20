@@ -3,6 +3,7 @@ using Hless.Data.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,27 +24,28 @@ namespace Hless.Api.Data
             {
                 try
                 {
-                    StringBuilder query = new StringBuilder("insert into [dbo].[Schema] (Name, Definition, DraftDefinition, CreatedBy, CreatedAt, ApplicationId) values (");
+                    string query = "insert into [dbo].[Schema] (Name, Definition, DraftDefinition, CreatedBy, CreatedAt, ApplicationId) values " +  
+                    "(@Name, @Definition, @DraftDefinition, @CreatedBy, @CreatedAt, @ApplicationId)";
 
-                    query.Append("'" + schema.Name.ToString() + "',");
+                    SqlCommand command = new SqlCommand(query);
+
+                    command.Parameters.AddWithValue("@Name", schema.Name);
 
                     if (schema.Definition == null)
-                        query.Append("'" + "null',");
+                        command.Parameters.AddWithValue("@Definition", "null");
                     else
-                    {
-                        query.Append("'" + JsonConvert.SerializeObject(schema.Definition) + "',");
-                    }
-                    
-                    query.Append("'" + JsonConvert.SerializeObject(schema.DraftDefinition) + "',");
+                        command.Parameters.AddWithValue("Definition", JsonConvert.SerializeObject(schema.Definition));
+
+                    command.Parameters.AddWithValue("@DraftDefinition", JsonConvert.SerializeObject(schema.DraftDefinition));
 
                     //For created by, change to logged in user
-                    query.Append("1,");
+                    command.Parameters.AddWithValue("@CreatedBy", "1");
 
-                    query.Append("'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"',");
+                    command.Parameters.AddWithValue("@CreatedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     //applicationId
-                    query.Append(schema.ApplicationId+")");
+                    command.Parameters.AddWithValue("@ApplicationId", schema.ApplicationId.ToString());
 
-                    if (schemaDatabaseExtension.ExecuteNonQuery(query.ToString()) == 1)
+                    if (schemaDatabaseExtension.ExecuteNonQuery(command) == 1)
                         return schema;
                     else
                         return null;
@@ -57,24 +59,71 @@ namespace Hless.Api.Data
 
         public Task<Schema> GetSchemaAsync(long schemaId)
         {
-            throw new System.NotImplementedException();
+            return Task.Run(() =>
+            {
+                try
+                {
+                    string query = "select * from [dbo].[Schema] where SchemaId = @SchemaId";
+                    SqlCommand command = new SqlCommand(query);
+
+                    command.Parameters.AddWithValue("@SchemaId", schemaId.ToString());
+
+                    List<Schema> result = (List<Schema>)schemaDatabaseExtension.ExecuteReader(command);
+
+                    if (result != null)
+                        return result[0];
+                    else
+                        return null;
+                }
+                catch
+                {
+                    return null;
+                }
+            });
         }
 
         public Task<IEnumerable<Schema>> GetSchemasAsync()
         {
             string queryString = "select * from [dbo].[Schema]";
+            SqlCommand query = new SqlCommand(queryString);
 
-            return Task.FromResult((IEnumerable<Schema>)schemaDatabaseExtension.ExecuteReader(queryString));
+            return Task.FromResult((IEnumerable<Schema>)schemaDatabaseExtension.ExecuteReader(query));
         }
 
         public Task PublishSchemaAsync(long schemaId)
         {
-            throw new System.NotImplementedException();
+            return Task.Run(async () => {
+                Schema schema = await GetSchemaAsync(schemaId);
+
+                if (schema == null)
+                    return -1;
+
+                string queryString = "update [dbo].[Schema] " +
+                "set Definition = @Definition, LastModified = @LastModified, FirstPublished = @FirstPublished, LastPublished = @LastPublished " +
+                "where SchemaId = @SchemaId";
+                SqlCommand cmd = new SqlCommand(queryString);
+
+
+                cmd.Parameters.AddWithValue("@Definition", JsonConvert.SerializeObject(schema.DraftDefinition));
+                cmd.Parameters.AddWithValue("@LastModified", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                if(schema.FirstPublished == null)
+                    cmd.Parameters.AddWithValue("@FirstPublished", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                else
+                    cmd.Parameters.AddWithValue("@FirstPublished", schema.FirstPublished);
+
+                cmd.Parameters.AddWithValue("@LastPublished", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@SchemaId", schemaId);
+
+                return schemaDatabaseExtension.ExecuteNonQuery(cmd);
+            });
         }
 
         public Task UpdateSchemaAsync(Schema schema)
         {
-            throw new System.NotImplementedException();
+            return Task.Run(() => {
+
+            });
         }
     }
 }

@@ -15,18 +15,16 @@ namespace Hless.Api.Data
         {
         }
 
-        public override int ExecuteNonQuery(string query)
+        public override int ExecuteNonQuery(SqlCommand command)
         {
-            SqlCommand cmd = new SqlCommand(query, base.connection);
+            command.Connection = connection;
 
             if (connection.State != ConnectionState.Open)
                 connection.Open();
 
             try
             {
-                int x = cmd.ExecuteNonQuery();
-
-                return x;
+                return command.ExecuteNonQuery();
             }
             catch
             {
@@ -39,9 +37,9 @@ namespace Hless.Api.Data
             }
         }
 
-        public override IEnumerable<Schema> ExecuteReader(string query)
+        public override IEnumerable<Schema> ExecuteReader(SqlCommand command)
         {
-            SqlCommand cmd = new SqlCommand(query, base.connection);
+            command.Connection = connection;
 
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
@@ -49,7 +47,7 @@ namespace Hless.Api.Data
             List<Schema> schemas = new List<Schema>();
             try
             {
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
 
                     while (reader.Read())
@@ -78,18 +76,16 @@ namespace Hless.Api.Data
             }
         }
 
-        public override object ExecuteScalar(string query)
+        public override object ExecuteScalar(SqlCommand command)
         {
-            SqlCommand cmd = new SqlCommand(query, base.connection);
+            command.Connection = connection;
 
             if (connection.State != ConnectionState.Open)
                 connection.Open();
 
             try
             {
-                object x = cmd.ExecuteScalar();
-
-                return x;
+                return command.ExecuteScalar();
             }
             catch
             {

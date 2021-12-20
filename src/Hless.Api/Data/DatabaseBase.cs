@@ -16,12 +16,12 @@ namespace Hless.Api.Data
             connection = new SqlConnection(connectrionString);
         }
 
-        public abstract object ExecuteReader(string query);
+        public abstract object ExecuteReader(SqlCommand command);
 
 
-        public abstract int ExecuteNonQuery(string query);
+        public abstract int ExecuteNonQuery(SqlCommand command);
 
-        public abstract object ExecuteScalar(string query);
+        public abstract object ExecuteScalar(SqlCommand command);
 
         ~DatabaseBase()
         {

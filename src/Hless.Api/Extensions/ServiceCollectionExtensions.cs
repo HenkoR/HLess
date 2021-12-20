@@ -19,6 +19,8 @@ namespace Hless.Api.Extensions
         {
             services.AddSingleton<ISchemaDatabaseExtension> (new SchemaDatabaseExtension(connectionString));
 
+            SeedData.AddData();
+
             return services;
         }
 
